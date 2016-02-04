@@ -5,4 +5,4 @@ sudo tar -C /usr/local --strip-components 1 -xvf node.tar.gz && rm node.tar.gz
 cd node-led
 sudo npm install express-generator -g && express -ec --git --force
 npm install --no-bin-links
-echo "alias startLED='DEBUG=node-led:*;(cd ~/node-led/ && npm start)'" >> /home/vagrant/.bash_aliases
+echo "alias startNodeServer='DEBUG=node-led:*;(cd ~/node-led/ && npm start)'" >> /home/vagrant/.bash_aliases
