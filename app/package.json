@@ -4,6 +4,7 @@
   "description": "A Node/Express server controlling an LED",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/Algorithm518/node-express-led#readme",
   "dependencies": {
+    "ejs": "^2.4.1",
     "express": "^4.13.4",
     "node-pre-gyp": "^0.6.19",
     "serialport": "^2.0.6",
