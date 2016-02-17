@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Node LED</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-colorpicker.css">
@@ -11,6 +12,98 @@
     <script src="js/bootstrap-colorpicker.min.js"></script>
 </head>
 <body>
-<h2>Hello World!</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="page-header">LED Controls <span class="glyphicon glyphicon-cog"></span></h1>
+            <div id="colorWarn" class="alert alert-warning" style="display: none">
+                <strong>Wait!</strong> You must specify a valid color first
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <h2>Power <span class="glyphicon glyphicon-off"></span></h2>
+            <input id="ledOn" type="button" class="btn btn-success" value="Turn On" />
+            <input id="ledOff" type="button" class="btn btn-danger" value="Turn Off" />
+        </div>
+        <div class="col-sm-4">
+            <h2>Color <span class="glyphicon glyphicon-tint"></span></h2>
+            <div class="input-group cPicker">
+                <span id="picker" class="input-group-addon"><i></i></span>
+                <input id="colorInput" type="text" value="" class="form-control" />
+            </div>
+            <br/>
+            <input id="submitColor" type="button" class="btn btn-primary" value="Change Color" />
+        </div>
+        <div class="col-sm-4">
+            <h2>Flicker <span class="glyphicon glyphicon-time"></span></h2>
+            <select id="interval" class="form-control">
+                <% for(var i = 1; i <= 9; i++) { %>
+                    <option value="<%= i %>"><%= i %>x</option>
+                <% } %>
+            </select>
+            <br/>
+            <input id="submitAlert" type="button" class="btn btn-warning" value="Flash Color" />
+        </div>
+    </div>
+</div>
 </body>
 </html>
+<script type="text/javascript">
+    $(function() {
+        // Initialize color picker with options
+        $('.cPicker').colorpicker({
+            format: 'hex',
+            align: 'left'
+        });
+
+        // Assert color value is not undefined
+        var checkColor = function(color) {
+            color = (color === undefined) ? $('#colorInput').val() : color;
+
+            if (!color) {
+                $('#colorWarn').show().delay(2000).fadeOut();
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        var sendColorRequest = function(color, interval) {
+            interval = (interval === undefined) ? null : interval;
+
+            checkColor(color); // && TODO send the request to change color/flicker, etc...
+        }
+
+        // Allow color change submission on ENTER keypress
+        $('#colorInput').keypress(function (e) {
+            if (e.which == 13) {
+                $('#colorInput').blur();
+                sendColorRequest();
+            }
+        });
+
+        // Submit color change on click
+        $('#submitColor').click(function () {
+            sendColorRequest();
+        });
+
+        // Submit interval to flash the specified color
+        $('#submitAlert').click(function () {
+            var color = $('#colorInput').val();
+            var interval = $('#interval').val();
+            sendColorRequest(color, interval);
+        });
+
+        // Turn on LED
+        $('#ledOn').click(function() {
+            // TODO Send turn on message
+        });
+
+        // Turn off LED
+        $('#ledOff').click(function() {
+            // TODO Send turn off message
+        });
+    });
+</script>
